@@ -6,6 +6,10 @@ public class User {
 	private String username;
 	private String fullname;
 	
+	public User() {
+		
+	}
+	
 	public User(int userId, String username, String fullname) {
 		this.userId = userId;
 		this.username = username;
@@ -34,6 +38,11 @@ public class User {
 	
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
+	}
+	
+	@Override
+	public String toString() {
+		return " User :: " + username + " Fullname :: " + fullname;
 	}
 
 }
