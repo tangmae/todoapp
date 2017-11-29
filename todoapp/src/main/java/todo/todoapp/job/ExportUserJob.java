@@ -9,12 +9,14 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import todo.todoapp.entity.User;
+import todo.todoapp.processor.UserProcessor;
 import todo.todoapp.reader.UserReader;
 
 @Configuration
@@ -38,8 +40,7 @@ public class ExportUserJob {
     
     @Bean("exportAllUserJob")
     public Job exportAllUserJob() {
-    	
-    		return jobBuilderFactory.get("exportAllUserJob")
+    	return jobBuilderFactory.get("exportAllUserJob")
     			.start(retrieveUsersStep())
     			.build();
     }
@@ -47,15 +48,24 @@ public class ExportUserJob {
     @Bean("retrieveUsersStep")
     public Step retrieveUsersStep() {
 		return stepBuilderFactory.get("retrieveUsersStep")
-				.chunk(1)
+				.<User, User>chunk(1)
 				.reader(reader())
+				.processor(processor())
 				.build();
     }
     
-    @Bean
+    @Bean("allUserReader")
+    @StepScope
     public UserReader reader() {
-    		List<User> userList= userReader.read();
-    		return userReader;
+    	UserReader userReader = new UserReader();
+    	return userReader;
     }
-
+    
+    @Bean("allUserProcessor")
+    @StepScope
+    public UserProcessor processor() {
+    	UserProcessor processor = new UserProcessor();
+    	return processor;
+    	
+    }
 }

@@ -14,19 +14,22 @@ import todo.todoapp.dao.UserDAO;
 import todo.todoapp.entity.User;
 
 @Component
-public class UserReader implements ItemReader<List<User>>{
+public class UserReader implements ItemReader<User> {
 	
 	@Autowired
 	private UserDAO userdao;
-
+	
 	@Override
-	public List<User> read() {
-		List<User> userList = userdao.findAll();
-		for (User u : userList) {
-			System.out.println(u.toString());
-		}
-		return userList;
+	public User read() {
+		User user = new User();
+		List<User> users = fetchAllUser();
+		
+		return user;
+		
 	}
 	
+	public List<User> fetchAllUser() {
+		return userdao.findAll();
+	}
 
 }

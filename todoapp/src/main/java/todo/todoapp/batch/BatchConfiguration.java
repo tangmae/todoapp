@@ -23,8 +23,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import todo.todoapp.entity.User;
 
-//@Configuration
-//@EnableBatchProcessing
 public class BatchConfiguration {
 	@Autowired
     public JobBuilderFactory jobBuilderFactory;
@@ -34,6 +32,7 @@ public class BatchConfiguration {
  
     @Autowired
     private JdbcTemplate jdbcTemplate;    
+    
     @Bean("showUserStep")
     public Step showUsersStep() {
     	
@@ -46,12 +45,6 @@ public class BatchConfiguration {
     			
    public FlatFileItemReader<User> reader(){
 	   	FlatFileItemReader<User> userReader = new FlatFileItemReader<User>();
-//	   	List<User> results = jdbcTemplate.query("SELECT * FROM users", new RowMapper<User>() {
-//			
-//			public User mapRow(ResultSet rs, int row) throws SQLException {
-//				return new User(rs.getInt(1), rs.getString(2), rs.getString(3));
-//			}
-//		});
 		return userReader;	
     }
     
