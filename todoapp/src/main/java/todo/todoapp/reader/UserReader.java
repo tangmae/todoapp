@@ -1,5 +1,6 @@
 package todo.todoapp.reader;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -21,15 +22,22 @@ public class UserReader implements ItemReader<User> {
 	
 	@Override
 	public User read() {
-		User user = new User();
-		List<User> users = fetchAllUser();
 		
-		return user;
+		Iterator<User> users = fetchAllUser().iterator();
+		
+		if (users.hasNext()) {
+			User resultUser = users.next();
+			return resultUser;
+		} else {
+			System.out.println("No Users");
+			return null;
+		}
 		
 	}
 	
 	public List<User> fetchAllUser() {
-		return userdao.findAll();
+		List<User> userIterator = userdao.findAll();
+		return userIterator;
 	}
 
 }

@@ -20,8 +20,8 @@ CREATE TABLE todos (
 	user_id INT NOT NULL,
 	title VARCHAR(200),
 	description VARCHAR(500),
-	assign_date DATETIME,
-	due_data DATETIME,
+	assign_date VARCHAR(20),
+	due_date VARCHAR(20),
 	isdone BOOLEAN DEFAULT false
 ) ENGINE=INNODB;
 

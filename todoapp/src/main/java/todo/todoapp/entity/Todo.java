@@ -1,10 +1,13 @@
 package todo.todoapp.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Todo {
+import org.joda.time.DateTime;
+
+public class Todo implements Serializable {
 	
-	private int todoId;
+	private long todoId;
 	private int projectId;
 	private int userId;
 	private String title;
@@ -14,10 +17,10 @@ public class Todo {
 	private boolean isDone;
 	
 	
-	public int getTodoId() {
+	public long getTodoId() {
 		return todoId;
 	}
-	public void setTodoId(int todoId) {
+	public void setTodoId(long todoId) {
 		this.todoId = todoId;
 	}
 	public int getProjectId() {
@@ -63,6 +66,4 @@ public class Todo {
 		this.isDone = isDone;
 	}
 	
-	
-
 }

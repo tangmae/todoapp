@@ -10,6 +10,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +20,6 @@ import todo.todoapp.entity.User;
 import todo.todoapp.processor.UserProcessor;
 import todo.todoapp.reader.UserReader;
 
-@Configuration
-@EnableBatchProcessing
 public class ExportUserJob {
 	
 	@Autowired
@@ -38,9 +37,10 @@ public class ExportUserJob {
     @Autowired
     private UserReader userReader;
     
-    @Bean("exportAllUserJob")
-    public Job exportAllUserJob() {
-    	return jobBuilderFactory.get("exportAllUserJob")
+    @Bean("DisplayAllUserJob")
+    public Job printAllUserJob() {
+    	return jobBuilderFactory.get("DisplayAllUserJob")
+    			.incrementer(new RunIdIncrementer())
     			.start(retrieveUsersStep())
     			.build();
     }
