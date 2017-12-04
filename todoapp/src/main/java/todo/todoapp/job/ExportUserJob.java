@@ -2,6 +2,9 @@ package todo.todoapp.job;
 
 import java.util.List;
 
+
+
+
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.Job;
@@ -20,6 +23,8 @@ import todo.todoapp.entity.User;
 import todo.todoapp.processor.UserProcessor;
 import todo.todoapp.reader.UserReader;
 
+@Configuration
+@EnableBatchProcessing
 public class ExportUserJob {
 	
 	@Autowired
@@ -37,35 +42,35 @@ public class ExportUserJob {
     @Autowired
     private UserReader userReader;
     
-    @Bean("DisplayAllUserJob")
-    public Job printAllUserJob() {
-    	return jobBuilderFactory.get("DisplayAllUserJob")
-    			.incrementer(new RunIdIncrementer())
-    			.start(retrieveUsersStep())
-    			.build();
-    }
-    
-    @Bean("retrieveUsersStep")
-    public Step retrieveUsersStep() {
-		return stepBuilderFactory.get("retrieveUsersStep")
-				.<User, User>chunk(1)
-				.reader(reader())
-				.processor(processor())
-				.build();
-    }
-    
-    @Bean("allUserReader")
-    @StepScope
-    public UserReader reader() {
-    	UserReader userReader = new UserReader();
-    	return userReader;
-    }
-    
-    @Bean("allUserProcessor")
-    @StepScope
-    public UserProcessor processor() {
-    	UserProcessor processor = new UserProcessor();
-    	return processor;
-    	
-    }
+//    @Bean("DisplayAllUserJob")
+//    public Job printAllUserJob() {
+//    	return jobBuilderFactory.get("DisplayAllUserJob")
+//    			.incrementer(new RunIdIncrementer())
+//    			.start(retrieveUsersStep())
+//    			.build();
+//    }
+//    
+//    @Bean("retrieveUsersStep")
+//    public Step retrieveUsersStep() {
+//		return stepBuilderFactory.get("retrieveUsersStep")
+//				.<User, User>chunk(1)
+//				.reader(fetchUserReader())
+//				.processor(processor())
+//				.build();
+//    }
+//    
+//    @Bean("UserReader")
+//    @StepScope
+//    public UserReader fetchUserReader() {
+//    	UserReader userReader = new UserReader();
+//    	return userReader;
+//    }
+//    
+//    @Bean("allUserProcessor")
+//    @StepScope
+//    public UserProcessor processor() {
+//    	UserProcessor processor = new UserProcessor();
+//    	return processor;
+//    	
+//    }
 }

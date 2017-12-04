@@ -12,13 +12,28 @@ import todo.todoapp.entity.Project;
 import todo.todoapp.entity.Todo;
 import todo.todoapp.entity.User;
 
-public class GenerateTodoProcessor implements ItemProcessor<User, List<Todo>> {
+public class GenerateTodoProcessor implements ItemProcessor<User, Todo> {
 	
 	@Autowired
 	private ProjectDAO projectDao;
 	
-	@Override
-	public List<Todo> process(User user) throws Exception {
+	public Todo process(User user) throws Exception {
+		
+		DateTime today = DateTime.now();
+
+		Todo todo = new Todo();
+		todo.setUserId(user.getUserId());
+		todo.setProjectId(1);
+		todo.setTitle("TODO for Test");
+		todo.setDescription("Generated " + Math.ceil((Math.random()*(100))));
+		todo.setAssignDate(today.toDate());
+		todo.setDueDate(today.plusDays(1).toDate());
+
+		return todo;
+	}
+	
+
+	public List<Todo> pprocess(User user) throws Exception {
 		List<Todo> todoList = new ArrayList();
 		
 		List<Project> projectList = projectDao.findAll();

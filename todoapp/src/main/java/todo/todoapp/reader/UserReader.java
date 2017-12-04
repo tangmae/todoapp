@@ -3,41 +3,41 @@ package todo.todoapp.reader;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.sql.DataSource;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.batch.item.ItemCountAware;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import todo.todoapp.dao.UserDAO;
 import todo.todoapp.entity.User;
 
-@Component
 public class UserReader implements ItemReader<User> {
+	
+    private static final Logger LOG = LoggerFactory.getLogger(UserReader.class);
 	
 	@Autowired
 	private UserDAO userdao;
 	
+	private List<User> userList;
+	
+	private int count = 0;
+	
 	@Override
 	public User read() {
 		
-		Iterator<User> users = fetchAllUser().iterator();
+		LOG.info("-------- " + count);
 		
-		if (users.hasNext()) {
-			User resultUser = users.next();
-			return resultUser;
-		} else {
-			System.out.println("No Users");
-			return null;
+		userList = userdao.findAll();
+		
+		if (count < userList.size()) {
+			return userList.get(count++);
 		}
 		
+		LOG.info("-------- " + count);
+
+		return null;
 	}
 	
-	public List<User> fetchAllUser() {
-		List<User> userIterator = userdao.findAll();
-		return userIterator;
-	}
 
 }
